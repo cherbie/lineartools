@@ -27,13 +27,3 @@ def workbookParser(wb_reader):
     
     # csv write
     return
-
-
-def rowToDict(row):
-    number = 1
-    rtn = {
-        f'DatTim_{number}': row[5],
-        f'Ref_{number}': row[4],
-        f'Heart_{number}': row[9]
-    }
-    return rtn

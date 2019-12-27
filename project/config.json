@@ -1,0 +1,13 @@
+{
+    "HEADERS": ["SubjectID", "Visit", "Form", "DatTim_#1", "Ref_#1", "Heart_#1", "RR_#1", "PR_#1", "QRS_#1", "QT_#1", "QTcF_#1", "Assess_#1"],
+    "FORMS": ["12 Lead ECG (Triplicate)", "Unscheduled 12-Lead Triplicate ECG", "45MIN Predose 12 Lead ECG (Triplicate)",
+        "30MIN Predose 12 Lead ECG (Triplicate)", "15MIN Predose 12 Lead ECG (Triplicate)", "30MIN 12 Lead ECG (Triplicate)",
+        "1HR 12 Lead ECG (Triplicate)", "1.5HR 12 Lead ECG (Triplicate)", "2HR 12 Lead ECG (Triplicate)", "3HR 12 Lead ECG (Triplicate)",
+        "4HR 12 Lead ECG (Triplicate)", "5HR 12 Lead ECG (Triplicate)", "6HR 12 Lead ECG (Triplicate)", "8HR 12 Lead ECG (Triplicate)",
+        "12HR 12 Lead ECG (Triplicate)", "16HR 12 Lead ECG (Triplicate)", "24HR 12 Lead ECG (Triplicate)", "48HR 12 Lead ECG (Triplicate)",
+        "72HR 12 Lead ECG (Triplicate)", "144HR 12 Lead ECG (Triplicate)"],
+    "VISITS": ["Screening", "Day -2 [Period 1]", "Day -1 [Period 1]", "Day 1 [Period 1]", "Day 2 [Period 1]", "Day 3 [Period 1]",
+        "Day 4 [Period 1]", "Day -2 [Period 2]", "Day -1 [Period 2]", "Day 1 [Period 2]", "Day 2 [Period 2]", "Day 3 [Period 2]", 
+        "Day 4 [Period 2]", "Day 7 [Period 2]  EOS", "Unscheduled Visits"],
+    "FILE": "/Users/herbsca/OneDrive/development/nox-ecg/project/test/static/NOX_TEMPLATE.xlsx"
+}
