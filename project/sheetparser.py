@@ -66,11 +66,9 @@ class SheetParser:
     def getFormData(self, formname='15MIN Predose 12 Lead ECG (Triplicate)'):
         formdata = []
 
-        if formname is None:
+        if formname is None: # IF NO FORMNAME IS PROVIDED
             formname = self.meta['forms'][0]
         
-        print(formname)
-
         if self.data.get(formname, None) is None: # FORM HAS NO DATA
             formdata.append({})
         else:
