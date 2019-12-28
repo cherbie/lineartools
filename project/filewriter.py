@@ -1,12 +1,13 @@
 import sys
+import csv
 
 class FileWriter:
     def __init__(self, name, fieldnames):
         self.filename = f'{name}.csv'
-        self.file = open(self.filename, 'wb')
+        self.file = open(self.filename, 'w')
         self.headers = fieldnames
         self.writer = csv.DictWriter(self.file, fieldnames=fieldnames, restval='', delimiter=',')
-        self.writer.writeHeader()
+        self.writer.writeheader()
     
     def bulkWrite(self, entries):
         '''
@@ -27,5 +28,8 @@ class FileWriter:
     def getFilename(self):
         return self.filename
     
+    def close(self):
+        return self.file.close()
+
 
 
