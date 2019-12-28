@@ -1,16 +1,16 @@
 from filewriter import FileWriter
 from sheetparser import SheetParser
 
-def workbookParser(wb_reader, headers=None):
+def workbookParser(wb_reader, config):
     '''
     Parse all subjects for a particular form and create output files
     @param wb_reader - FileReader object containing workbook file and meta information
     '''
     header_template = ('SubjectID', 'Visit', 'FormName', 'DatTim_1', 'Ref_1', 'HR_1')
-    
-    parser = SheetParser(wb_reader.meta) # object collating all information
+    meta = config.getMeta()
+    parser = SheetParser(meta) # object collating all information
 
-    for subject in wb_reader.wb.sheetnames:
+    for subject in wb_reader.wb.sheetnames: # subject per worksheet
         print(subject)
         ws = wb_reader.getWorksheet(subject) # subject sheet
         rows = ws.iter_rows(min_row=2, values_only=True)
@@ -23,8 +23,8 @@ def workbookParser(wb_reader, headers=None):
                 parser.parseRow(row, subject)
     print(parser.getFormData())
 
-    for formname in wb_reader.meta['forms']:
-        file = FileWriter(formname, parser.getHeaders())
+    for formname in meta['forms']:
+        file = FileWriter(f'{config.getOutputFolder()}/{formname}', parser.getHeaders())
         file.bulkWrite(parser.getFormData(formname))
         file.close()
         print(formname)

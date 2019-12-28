@@ -3,6 +3,7 @@ from openpyxl import Workbook, load_workbook
 from filewriter import FileWriter
 from filereader import FileReader
 from parser import workbookParser
+from configparser import ConfigParser
 
 wb = Workbook()
 # wb_ecg = load_workbook('test.xlsx')
@@ -28,10 +29,12 @@ def main():
         print(template_filename)
     else:
         raise IOError
+    
+    config = ConfigParser(template_filename)
 
-    wb_class = FileReader(template_filename, {'visits': visit_names, 'forms': ecg_names})
+    wb_class = FileReader(config.getInputFile(), config.getMeta())
     print(wb_class.getSheetnames())
-    workbookParser(wb_class)
+    workbookParser(wb_class, config)
 
     
     # visit_names = input()
