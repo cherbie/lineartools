@@ -67,9 +67,7 @@ class SheetParser:
         self.data[formname][visit][subject][f'QTcF_{row[self.COL_NUM]}'] = row[self.COL_QTCF]
         self.data[formname][visit][subject][f'Assess_{row[self.COL_NUM]}'] = row[self.COL_ASSESS]
 
-        if regmatch is not None:
-            print(regmatch.string[regmatch.span()[1]-1])
-
+        # Yes/No value for is repeat required
         if regmatch is not None and regmatch.string[regmatch.span()[1]-1]:
             self.data[formname][visit][subject][f'Repeat_{regmatch.string}'] = self.YES
 
