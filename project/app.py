@@ -1,7 +1,5 @@
 import sys, os
-from filereader import FileReader
-from parser import workbookParser
-from configparser import ConfigParser
+from src import FileReader, workbookParser, ConfigParser
 
 def main():
     if len(sys.argv) < 2:

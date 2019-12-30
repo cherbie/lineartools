@@ -1,6 +1,6 @@
 # from filewriter import FileWriter
-from filewriterxl import FileWriterXL
-from sheetparser import SheetParser
+from .filewriterxl import FileWriterXL
+from .sheetparser import SheetParser
 
 def workbookParser(wb_reader, config):
     '''
