@@ -19,7 +19,7 @@ class FileWriterXL:
 
     def setWorksheet(self):
         self.ws.title = 'DATA'
-        self.ws.sheet_properties.tabColor = 'FFB6C1'
+        self.ws.sheet_properties.tabColor = 'FF69B4'
 
         for header, pos in self.headers.items():
             self.ws.cell(row=1, column=pos, value=header)

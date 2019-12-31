@@ -1,6 +1,7 @@
 # from filewriter import FileWriter
 from .filewriterxl import FileWriterXL
 from .sheetparser import SheetParser
+import os
 
 def workbookParser(wb_reader, config):
     '''
@@ -23,7 +24,7 @@ def workbookParser(wb_reader, config):
 
     # WRITE FORM DATA TO FILE
     for formname in meta['forms']:
-        file = FileWriterXL(f'{config.getOutputFolder()}/{formname}', parser.getHeaders())
+        file = FileWriterXL(os.path.join(config.getOutputFolder(),formname), parser.getHeaders())
         file.bulkWrite(parser.getFormData(formname))
         file.close()
     
