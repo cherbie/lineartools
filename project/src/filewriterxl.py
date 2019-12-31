@@ -1,9 +1,11 @@
 from openpyxl import Workbook
+import os
 
 class FileWriterXL:
     def __init__(self, name, fieldnames):
         dirname = os.path.dirname(name)
         if not os.path.exists(dirname):
+            print(f'creating directory: {dirname}')
             os.mkdir(dirname)
         self.filename = f'{name}.xlsx'
         self.headers = FileWriterXL.setHeaders(fieldnames)
