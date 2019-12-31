@@ -8,6 +8,6 @@
     "VISITS": ["Screening", "Day -2 [Period 1]", "Day -1 [Period 1]", "Day 1 [Period 1]", "Day 2 [Period 1]", "Day 3 [Period 1]",
         "Day 4 [Period 1]", "Day -2 [Period 2]", "Day -1 [Period 2]", "Day 1 [Period 2]", "Day 2 [Period 2]", "Day 3 [Period 2]", 
         "Day 4 [Period 2]", "Day 7 [Period 2]  EOS", "Unscheduled Visits"],
-    "FILE": "/Users/herbsca/OneDrive/development/nox-ecg/project/test/input/NOX_TEMPLATE.xlsx",
-    "OUTPUT": "/Users/herbsca/OneDrive/development/nox-ecg/project/test/output"
+    "FILE": "./test/input/NOX_TEMPLATE.xlsx",
+    "OUTPUT": "./test/output/"
 }
