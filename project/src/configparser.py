@@ -4,18 +4,19 @@ class ConfigParser:
     def __init__(self, config):
         self.file = open(config, 'r')
         self.data = json.load(self.file)
-        # print(self.data)
         self.file.close()
     
     def getMeta(self):
-        meta = {
+        return {
             'forms': self.data['FORMS'],
             'visits': self.data['VISITS']
         }
-        return meta
+    
+    def getInputHeaders(self):
+        return self.data['INPUT'].get('COLUMNS', None)
     
     def getInputFile(self):
-        return self.data['FILE']
+        return self.data['INPUT'].get('FILE', None)
     
     def getOutputFolder(self):
         return self.data['OUTPUT']
