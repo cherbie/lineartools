@@ -16,7 +16,7 @@ The script can be run like so:
  config - the location of the config file
 ```
 
-The config file needs to be in json file requiring 4 key-value pairs to be defined. These are:
+The config file needs to be in json file format (__*.json__), requiring 4 key-value pairs to be defined. These are:
  - __FORMS__
    - Array of strings, listing the names of all applicable study forms for which data needs to be uploaded for.
    - Exact string match is __important__
