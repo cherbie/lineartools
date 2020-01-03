@@ -6,12 +6,6 @@ class ConfigParser:
         self.data = json.load(self.file)
         self.file.close()
     
-    def getMeta(self):
-        return {
-            'forms': self.data['FORMS'],
-            'visits': self.data['VISITS']
-        }
-    
     def getInputHeaders(self):
         return self.data['INPUT'].get('COLUMNS', None)
     

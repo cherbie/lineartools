@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 import os
 
 class FileReader:
-    def __init__(self, filename, meta):
+    def __init__(self, filename):
         '''
         @param filename - location of xlsx workbook file
         '''
@@ -10,7 +10,6 @@ class FileReader:
             raise IOError
         self.filename = filename
         self.wb = load_workbook(filename=filename)
-        self.meta = meta # dictionary containing ECG & Visit names
     
     def getSheetnames(self):
         return self.wb.sheetnames
