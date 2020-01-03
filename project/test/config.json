@@ -9,5 +9,5 @@
         "Day 4 [Period 1]", "Day -2 [Period 2]", "Day -1 [Period 2]", "Day 1 [Period 2]", "Day 2 [Period 2]", "Day 3 [Period 2]", 
         "Day 4 [Period 2]", "Day 7 [Period 2]  EOS", "Unscheduled Visits"],
     "FILE": "./test/input/NOX_TEMPLATE.xlsx",
-    "OUTPUT": "./test/output/"
+    "OUTPUT": "/Users/herbsca/Desktop/output"
 }
