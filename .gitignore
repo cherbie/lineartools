@@ -7,3 +7,7 @@ __pycache__
 /build
 /dist
 app.spec
+
+# Project Folders & Files
+output/
+*.zip

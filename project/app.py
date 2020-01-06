@@ -23,7 +23,8 @@ def main():
     print(' ... parsing file data')
     workbookParser(wb_reader, config) # business logic
     print(' ... process complete')
-    sleep(10)
+    time.sleep(10)
+    sys.exit()
 
 value = 'y'
 while value == 'y':
