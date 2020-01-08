@@ -7,7 +7,7 @@ class FileReader:
         @param filename - location of xlsx workbook file
         '''
         if not os.path.exists(filename):
-            raise IOError
+            raise Exception('IOERROR: Could not find the input file')
         self.filename = filename
         self.wb = load_workbook(filename=filename)
     
