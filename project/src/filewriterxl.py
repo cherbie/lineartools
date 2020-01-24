@@ -39,7 +39,26 @@ class FileWriterXL:
                 self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
             self.currentRow += 1 # increment row
         return
-    
+
+    def bulkWriteSheet(self, sheetname, entries):
+        '''
+        @param entries - array of dictionary entries with key's containing the col headers
+        '''
+
+        ws = self.wb.create_sheet(title=sheetname)
+        currentRow = 1 # set the current row as the header
+
+        # Write the header
+        for key, value in self.headers.items():
+            ws.cell(row=currentRow, column=value, value=key)
+        currentRow += 1
+
+        for entry in entries:
+            for key, value in entry.items():
+                ws.cell(row=currentRow, column=self.headers[key], value=value)
+            currentRow += 1 # increment row
+        return
+
     def singleWrite(self, entry):
         '''
         @param entry - dictionary entry
@@ -48,13 +67,13 @@ class FileWriterXL:
             self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
         self.currentRow += 1 # increment row
         return
-    
+
     def printHeaders(self):
         print(self.headers.keys())
-    
+
     def getFilename(self):
         return self.filename
-    
+
     def close(self):
         '''
         Saves the excel file to file and then closes the file properly.

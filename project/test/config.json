@@ -1,6 +1,6 @@
 {
     "INPUT": {
-        "FILE": "C:\\Users\\herbs\\Documents\\nox-ecg\\project\\test\\input\\INPUT_FILE.xlsx",
+        "FILE": "/Users/herbsca/OneDrive/development/nox-ecg/project/test/input/INPUT_FILE.xlsx",
         "COLUMNS": {
             "VISIT": 0,
             "FORM": 1,
@@ -18,5 +18,5 @@
             "NO": "No"
         }
     },
-    "OUTPUT": "C:\\Users\\herbs\\Documents\\nox-ecg\\project\\test\\output"
+    "OUTPUT": "/Users/herbsca/OneDrive/development/nox-ecg/project/test/output"
 }

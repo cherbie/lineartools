@@ -11,17 +11,16 @@ def main():
         raise Exception('INCORRECT NUMBER OF ARGUMENTS SPECIFIED')
     else:
         configFile = sys.argv[1]
-    
+
     if not os.path.exists(configFile):
         print('Configuration file could not be found. Please review the file path.')
         raise Exception('CONFIG FILE PATH ERROR. THE SPECIFIED PATH DOES NOT EXIST.\n')
-    
+
     print(' ... reading config file')
     config = ConfigParser(configFile)
     print(' ... reading excel file')
     wb_reader = FileReader(config.getInputFile())
     print(' ... parsing file data')
-    workbookParser(wb_reader, config) # business logic
     print(' ... process complete')
     time.sleep(10)
     sys.exit()

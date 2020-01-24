@@ -11,3 +11,6 @@ app.spec
 # Project Folders & Files
 output/
 *.zip
+
+# Jupyter
+.ipynb*
