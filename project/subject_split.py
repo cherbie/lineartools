@@ -1,7 +1,12 @@
 from src import FileReader, FileWriterXL
+import os
 
 def main():
-    filename = input("Input filename/location:\n") # GET FILENAME / LOCATION
+    filename = input("Input filename / location:\n") # GET FILENAME / LOCATION
+
+    # CHECK THE INPUT FILE EXISTS
+    if not os.path.exists(filename):
+        raise Exception(f"Specified input file path does not exist ...\n{filename}")
 
     # GET XLSX WORKBOOK METADATA
     wb_reader = FileReader(filename)
@@ -10,7 +15,7 @@ def main():
     headers = wb_reader.getSheetHeaders(sheetname)
 
     # GET THE COLUMN
-    #col_num = input()
+    #col_num = input("Column number of unique subject identifier: (Note: Column A = 0)\n")
     id_col = 6
 
     # Look for participants
@@ -32,7 +37,7 @@ def main():
             participants[f'{id}'].append(values)
 
     # CREATE OUTPUT FILE
-    outputfilename = input('Output filename/location:\n')
+    outputfilename = input('Output filename / location:\n')
 
     # WRITE TO FILE NEW SHEETS
     wb_writer = FileWriterXL(outputfilename, headers)
@@ -42,4 +47,8 @@ def main():
 
     wb_writer.close() # saves the document
 
-main()
+try:
+    main()
+except Exception as err:
+    print("An error has occurred!\n\n")
+    print(err)
