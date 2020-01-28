@@ -75,7 +75,7 @@ class SheetParser:
 
         # Yes/No value for is repeat required
         if regmatch is not None and regmatch.string[regmatch.span()[1]-1]:
-            self.data[formname][visit][subject][f'Repeat_{regmatch.string}'] = self.inputHeaders('YES', self.YES)
+            self.data[formname][visit][subject][f'Repeat_{regmatch.string}'] = self.inputHeaders.get('YES', self.YES)
 
 
     def getFormData(self, formname='15MIN Predose 12 Lead ECG (Triplicate)'):
