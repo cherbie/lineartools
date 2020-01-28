@@ -21,6 +21,7 @@ def main():
     print(' ... reading excel file')
     wb_reader = FileReader(config.getInputFile())
     print(' ... parsing file data')
+    workbookParser(wb_reader, config) # business logic
     print(' ... process complete')
     time.sleep(10)
     sys.exit()
