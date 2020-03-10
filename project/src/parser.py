@@ -13,7 +13,9 @@ def workbookParser(wb_reader, config):
     for subject in wb_reader.wb.sheetnames: # subject per worksheet
         ws = wb_reader.getWorksheet(subject) # subject sheet
         rows = ws.iter_rows(min_row=2, values_only=True)
+        print(f'Subject: {subject}')
         for row in rows:
+            print(row)
             if row[0] is None:
                 break
             elif row[0] == 'VOID':
@@ -22,11 +24,11 @@ def workbookParser(wb_reader, config):
                 parser.parseRow(row, subject)
 
     forms = parser.getForms()# retrieve all forms seen
-    
+
     # WRITE FORM DATA TO FILE
     for formname in forms:
         file = FileWriterXL(os.path.join(config.getOutputFolder(),formname), fieldnames=parser.getHeaders())
         file.bulkWrite(parser.getFormData(formname))
         file.close()
-    
+
     return

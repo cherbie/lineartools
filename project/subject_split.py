@@ -20,11 +20,11 @@ def main():
 
     # Look for participants
     participants = {}
-    rows = ws.iter_rows(min_row=2, values_only=True)
+    rows = ws.iter_rows(min_row=2, max_row=4000, values_only=True)
     for row in rows:
         if row[id_col] is None:
             break
-        elif row[id_col] == 'VOID':
+        elif row[id_col] == "":
             continue
         else:
             # parser.parseRow(row, subject)

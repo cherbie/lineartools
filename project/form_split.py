@@ -26,12 +26,13 @@ def main():
     time.sleep(10)
     sys.exit()
 
-value = 'y'
-while value == 'y':
-    try:
-        main()
-    except Exception as err:
-        print('--------------------')
-        print(err)
-        print('--------------------')
-        value = input(errstr)
+#value = 'y'
+#while value == 'y':
+    #try:
+    #    main()
+    #except Exception as err:
+    #    print('--------------------')
+    #    print(err)
+    #    print('--------------------')
+    #    value = input(errstr)
+main()

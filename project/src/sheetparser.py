@@ -34,10 +34,13 @@ class SheetParser:
         '''
         Assuming external sorting on a per subject basis
         '''
+
         # GET FORMNAME
         formname = row[self.inputHeaders.get('FORM', self.COL_FORM)]
         if formname is None:
-            raise 'No formname specified in row'
+            #print('No formname specified in row.')
+            raise Exception('No formname specified in row.')
+
         elif self.data.get(formname, None) is None:
             self.forms.append(formname)
             self.data[formname] = {} # VISITS WILL CONTAIN UNIQUE DICTIONARY ENTRY

@@ -35,7 +35,9 @@ class FileWriterXL:
         @param entries - array of dictionary entries with key's containing the col headers
         '''
         for entry in entries:
+            print(entry)
             for key, value in entry.items():
+                print(f'key: {key} - value: {value}')
                 self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
             self.currentRow += 1 # increment row
         return
@@ -47,14 +49,15 @@ class FileWriterXL:
 
         ws = self.wb.create_sheet(title=sheetname)
         currentRow = 1 # set the current row as the header
-
         # Write the header
         for key, value in self.headers.items():
             ws.cell(row=currentRow, column=value, value=key)
         currentRow += 1
 
         for entry in entries:
+            print(entry)
             for key, value in entry.items():
+                print(f'key: {key} - value: {value}')
                 ws.cell(row=currentRow, column=self.headers[key], value=value)
             currentRow += 1 # increment row
         return
