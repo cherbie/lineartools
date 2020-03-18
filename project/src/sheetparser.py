@@ -37,10 +37,8 @@ class SheetParser:
 
         # GET FORMNAME
         formname = row[self.inputHeaders.get('FORM', self.COL_FORM)]
-        if formname is None:
-            #print('No formname specified in row.')
+        if formname is None: # NO FORMNAME SPECIFIED IN ROW
             raise Exception('No formname specified in row.')
-
         elif self.data.get(formname, None) is None:
             self.forms.append(formname)
             self.data[formname] = {} # VISITS WILL CONTAIN UNIQUE DICTIONARY ENTRY
@@ -63,6 +61,12 @@ class SheetParser:
             }
 
         numref = self.inputHeaders.get('_NUM', self.COL_NUM) # ECG NUMBER WITHIN TRIPLICATE
+
+        if self.data[formname][visit][subject].get(f'Ref_{row[numref]}', None) is not None: # data for identical collections will be overwritten
+            print('######################\n')
+            print(self.data[formname][visit].get(subject, None))
+            print(f'Data is overwritten!\nVisit: {visit}\nSubject: {subject}\nForm: {formname}.\n')
+
         regmatch = re.search('#?R[13]', row[numref])
 
         # object

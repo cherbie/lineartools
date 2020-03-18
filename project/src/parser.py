@@ -15,7 +15,7 @@ def workbookParser(wb_reader, config):
         rows = ws.iter_rows(min_row=2, values_only=True)
         print(f'Subject: {subject}')
         for row in rows:
-            print(row)
+            # print(row)
             if row[0] is None:
                 break
             elif row[0] == 'VOID':

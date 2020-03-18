@@ -5,7 +5,7 @@ class FileWriterXL:
     def __init__(self, name, fieldnames):
         dirname = os.path.dirname(name)
         if not os.path.exists(dirname):
-            print(f'creating directory: {dirname}')
+            print(f'Creating Directory: {dirname}')
             os.mkdir(dirname)
         self.filename = f'{name}.xlsx'
         self.headers = FileWriterXL.setHeaders(fieldnames)
@@ -35,9 +35,7 @@ class FileWriterXL:
         @param entries - array of dictionary entries with key's containing the col headers
         '''
         for entry in entries:
-            print(entry)
             for key, value in entry.items():
-                print(f'key: {key} - value: {value}')
                 self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
             self.currentRow += 1 # increment row
         return
@@ -55,9 +53,7 @@ class FileWriterXL:
         currentRow += 1
 
         for entry in entries:
-            print(entry)
             for key, value in entry.items():
-                print(f'key: {key} - value: {value}')
                 ws.cell(row=currentRow, column=self.headers[key], value=value)
             currentRow += 1 # increment row
         return
