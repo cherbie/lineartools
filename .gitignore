@@ -9,9 +9,9 @@ __pycache__
 app.spec
 
 # Project Folders & Files
-output/
 *.zip
-*/test/*
+*/test
+*/results
 
 # Jupyter
 .ipynb*
