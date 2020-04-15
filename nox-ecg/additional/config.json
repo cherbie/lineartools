@@ -1,0 +1,22 @@
+{
+    "INPUT": {
+        "FILE": "/Users/herbsca/Onedrive/development/nox-ecg/project/additional/input/INPUT.xlsx",
+        "COLUMNS": {
+            "VISIT": 0,
+            "FORM": 1,
+            "ASSESSMENT": 2,
+            "_NUM": 3,
+            "DATE": 5,
+            "REF": 4,
+            "HEART": 11,
+            "RR": 12,
+            "PR": 13,
+            "QRSD": 14,
+            "QT": 15,
+            "QTCF": 16,
+            "YES": "Yes",
+            "NO": "No"
+        }
+    },
+    "OUTPUT": "/Users/herbsca/OneDrive/development/nox-ecg/project/additional/output"
+}

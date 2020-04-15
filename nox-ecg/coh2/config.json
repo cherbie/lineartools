@@ -1,0 +1,22 @@
+{
+    "INPUT": {
+        "FILE": "/Users/herbsca/Onedrive/development/nox-ecg/project/coh2/input/COH2_INPUT.xlsx",
+        "COLUMNS": {
+            "VISIT": 0,
+            "FORM": 1,
+            "ASSESSMENT": 2,
+            "_NUM": 3,
+            "DATE": 5,
+            "REF": 4,
+            "HEART": 10,
+            "RR": 11,
+            "PR": 12,
+            "QRSD": 13,
+            "QT": 14,
+            "QTCF": 15,
+            "YES": "Yes",
+            "NO": "No"
+        }
+    },
+    "OUTPUT": "/Users/herbsca/OneDrive/development/nox-ecg/project/coh2/output"
+}

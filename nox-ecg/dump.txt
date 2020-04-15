@@ -1,0 +1,7 @@
+ ... reading config file
+ ... reading excel file
+ ... parsing file data
+Subject: S070-14241
+Subject: S055-14236
+Creating Directory: /Users/herbsca/OneDrive/development/nox-ecg/project/re-upload/output
+ ... process complete
