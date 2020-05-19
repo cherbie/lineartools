@@ -201,6 +201,65 @@ class ParseData:
                     print(f'{row_data}\n{next_colname}')
 
         return row_data
+
+    def format_data(self):
+        '''
+        Responsible for formating the data prior to printing to output
+        '''
+
+        identifying_headers = ['Subject ID', 'Form Name', 'Group', 'Visit']
+
+        for formtype, typemap in self.typemap.items():
+            variable_headers_map = typemap.get("_variable_headers", None)
+            if variable_headers_map is None: # checks to see the _variable_headers subdocument is defined in the config file
+                continue
+
+            
+            # These forms need to have their data re-arrranged
+            data_old = self.data.get(formtype, None);
+            if data_old is None:
+                continue # data is not defined
+            
+            # print(data_old)
+            
+            data_new = dict()
+            for data in data_old:
+                id = '' # empty
+                for subid in identifying_headers:
+                    id += data.get(subid, '') # concat to create id
+                
+                if data_new.get(id, None) is None:
+                    # no data exists yet so populate with general data
+                    data_new[id] = {**data}
+                else:
+                    data_new[id].update(data)
+                
+                # cycle through all header rearrangements specified in config file
+                for location_name, location_map in variable_headers_map.items(): #
+                    cell_contents_name = location_map.get('content', '') # the name of the data point to include as the cell contents
+                    header = location_map.get("header", None)
+
+                    if header is None: # header is equal to the value of a cell
+                        header = data.get(location_name, None)
+                    
+                    if header is None: # header cannot be determined
+                        continue
+                    
+                    print(location_name)
+                    print(data)
+                    print(data_new[id])
+                    if data_new[id].get(location_name, None) is not None:
+                        del data_new[id][location_name] # delete the existing header
+                    if data_new[id].get(cell_contents_name, None) is not None:
+                        del data_new[id][cell_contents_name] # delete the contents of the new header
+                    data_new[id][header] = f'{data.get(cell_contents_name, "")}' # populate cell contents
+
+            # Repopuate the global dictionary
+            data_list = list()
+            for id, data in data_new.items():
+                data_list.append(data) # create row's of data
+            
+            self.data[formtype] = data_list
     
     def process_generalised_cells(self, row):
         '''

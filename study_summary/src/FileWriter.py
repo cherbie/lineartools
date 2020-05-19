@@ -2,73 +2,59 @@ import os
 from openpyxl import Workbook
 
 class FileWriter:
-    def __init__(self, name, fieldnames):
-        dirname = os.path.dirname(name)
+    def __init__(self, dirname: str, name: str, tabs: list, dictionary_data: dict):
         if not os.path.exists(dirname):
             print(f'Creating Directory: {dirname}')
             os.mkdir(dirname)
-        self.filename = f'{name}.xlsx'
-        self.headers = FileWriterXL.setHeaders(fieldnames)
-        self.wb = Workbook() # create new workbook
-        self.ws = self.wb.active
-        self.setWorksheet() # define the headers and worksheet properties
+        self.filename = f'{dirname}/{name}.xlsx'
+        self.tabs = tabs
+        self.wb = Workbook(write_only=True) # create new workbook
+        self.data = dictionary_data # all parsed data
+        self.baseheaders = ['Subject ID', 'Form Name', 'Group', 'Visit']
+        
 
-    def setHeaders(fieldnames):
+    def find_headers(self, tab: str):
         '''
         @param fieldnames - iterable list of fieldnames
         '''
-        headers = {}
-        for itx, fieldname in enumerate(fieldnames):
-            headers[fieldname] = itx+1
+        assert self.data.get(tab, None) is not None, "Error: Tab is not defined in parsed data dictionary. Check config file!"
+        
+        headers_dict = dict.fromkeys(self.baseheaders)
+        for data in self.data.get(tab, None):
+            headers_dict.update(data) # add keys to list
+    
+        headers = list(headers_dict.keys())
+        
+        
         return headers
 
-    def setWorksheet(self):
-        self.ws.title = 'DATA'
-        self.ws.sheet_properties.tabColor = 'FF69B4'
-
-        for header, pos in self.headers.items():
-            self.ws.cell(row=1, column=pos, value=header)
-        self.currentRow = 2 # set the last completed row
-
-    def bulkWrite(self, entries):
+    def write_worksheet(self, tab: str):
         '''
-        @param entries - array of dictionary entries with key's containing the col headers
+        @Return - all document headers
         '''
-        for entry in entries:
-            for key, value in entry.items():
-                self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
-            self.currentRow += 1 # increment row
+        ws = self.wb.create_sheet()
+        ws.title = tab
+        
+        datapoints = self.data.get(tab, None)
+        
+        if datapoints is None:
+            return # no data
+        
+        # -- Write Headers --
+        columns = self.find_headers(tab)
+        headers = list()
+        for i in columns:
+            headers.append(i.capitalize())
+        ws.append(headers)
+        
+        # -- Write Content --
+        for data in datapoints:
+            row = list()
+            for col in columns:
+                row.append(data.get(col, None)) # add data to row
+            ws.append(row) # write to file
+        
         return
-
-    def bulkWriteSheet(self, sheetname, entries):
-        '''
-        @param entries - array of dictionary entries with key's containing the col headers
-        '''
-
-        ws = self.wb.create_sheet(title=sheetname)
-        currentRow = 1 # set the current row as the header
-        # Write the header
-        for key, value in self.headers.items():
-            ws.cell(row=currentRow, column=value, value=key)
-        currentRow += 1
-
-        for entry in entries:
-            for key, value in entry.items():
-                ws.cell(row=currentRow, column=self.headers[key], value=value)
-            currentRow += 1 # increment row
-        return
-
-    def singleWrite(self, entry):
-        '''
-        @param entry - dictionary entry
-        '''
-        for key, value in entry.items():
-            self.ws.cell(row=self.currentRow, column=self.headers[key], value=value)
-        self.currentRow += 1 # increment row
-        return
-
-    def printHeaders(self):
-        print(self.headers.keys())
 
     def getFilename(self):
         return self.filename
