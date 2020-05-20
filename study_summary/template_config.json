@@ -1,0 +1,141 @@
+{
+	"tabs": ["ECG", "Vital Signs", "DSST", "Neurological", "Physical Exam", "Dose Administration", "Adverse Events"],
+	"map": {
+		"ECG": {
+			"_formregex": "ecg",
+			"_col": ["date", "time", "heart", "rr", "pr", "qrsd", "qt", "qtcf", "asssessment"],
+			"_medrio_order": ["date", "time", "heart", "rr", "pr", "qrsd", "qt", "qtcf", "assessment"],
+			"_colregex": {
+				"date": "dat",
+				"time": "tim",
+				"heart": "heart",
+				"rr": "rr",
+				"pr": "pr",
+				"qrsd": "qrsd",
+				"qt": "qt",
+				"qtcf": "qtcf",
+				"assessment": "rev"
+			},
+			"_triplicateregex": "triplicate",
+			"_repregex": "R[0-9]"
+		},
+		"Vital Signs": {
+			"_formregex": "vital",
+			"_col": ["date", "time", "systolic", "diastolic", "heart", "resp", "temp", "assessment"],
+			"_medrio_order": ["date", "time", "systolic", "diastolic", "heart", "resp", "temp", "assessment", "assessment"],
+			"_colregex": {
+				"date": "dat",
+				"time": "meas",
+				"systolic": "syst",
+				"diastolic": "dias",
+				"heart": "heart",
+				"resp": "resp",
+				"temp": "temp",
+				"assessment": "rev"
+			},
+			"_repregex": "R[0-9]"
+		},
+		"DSST": {
+			"_formregex": "dsst",
+			"_col": ["date", "visit", "timepoint", "starttime", "endtime", "comparison", "baseline"],
+			"_medrio_order": ["baseline", "date", "visit", "timepoint", "starttime", "endtime", "comparison"],
+			"_colregex": {
+				"baseline": "baseline",
+				"date": "dat",
+				"visit": "dsstvisit",
+				"timepoint": "timepoint",
+				"starttime": "sttime",
+				"endtime": "edtime",
+				"comparison": "comp"
+			},
+			"_ignore": {
+				"baseline": {
+					"content": "baseline",
+					"header_exact": "baseline",
+					"match_other": ["visit"]
+				}
+			}
+		},
+		"Neurological": {
+			"_formregex": "neurological",
+			"_col": ["date", "time", "assessment", "other", "significance", "date", "find"],
+			"_medrio_order": ["date", "time", "assessment", "other", "significance", "find"],
+			"_colregex": {
+				"assessment": "asses",
+				"other": "other",
+				"significance": "clinsig",
+				"date": "dat",
+				"find": "find",
+				"time": "tim"
+			},
+			"_variable_headers": {
+				"assessment": {
+					"content": "significance"
+				},
+				"other": {
+					"content": "significance"
+				},
+				"find": {
+					"header_exact": "Finding",
+					"header_ref": "assessment",
+					"_increment": true,
+					"content": "find"
+				}
+			}
+		},
+		"Physical Exam": {
+			"_formregex": "physical",
+			"_col": ["date", "time", "system", "other", "result"],
+			"_medrio_order": ["date", "time", "system", "other", "result"],
+			"_colregex": {
+				"date": "dat",
+				"time": "tim",
+				"system": "system",
+				"other": "oth",
+				"result": "result"
+			},
+			"_variable_headers": {
+				"system": {
+					"content": "result"
+				},
+				"other": {
+					"content": "result"
+				}
+			}
+		},
+		"Dose Adminstration": {
+			"_formregex": "doser 2",
+			"_col": ["cocacola", "batchnum", "datetime", "dosevolume", "watervolume", "totalvolume"],
+			"_medrio_order": ["cocacola", "batchnum", "datetime", "dosevolume", "watervolume", "totalvolume"],
+			"_colregex": {
+				"cocacola": "cocacola",
+				"batchnum": "batchnum",
+				"datetime": "dattim",
+				"watervolume": "water",
+				"dosevolume": "dosevol",
+				"totalvolume": "totalvol"
+			}
+		},
+		"Adverse Events": {
+			"_formregex": "adverse",
+			"_col": ["id", "ongoing", "startdate", "starttime", "enddate", "endtime", "outcome", "severity", "frequency", "serious", "term", "drug action", "action", "relationship"],
+			"_medrio_order": ["id", "ongoing", "startdate", "starttime", "enddate", "endtime", "outcome", "severity", "frequency", "serious", "term", "drug action", "action", "relationship"],
+			"_colregex": {
+				"id": "aeid",
+				"ongoing": "ongoing",
+				"startdate": "startdat", 
+				"starttime": "starttim",
+				"enddate": "enddat",
+				"endtime": "endtim",
+				"outcome": "outcome",
+				"severity": "severity",
+				"frequency": "freq",
+				"serious": "serious",
+				"term": "term",
+				"drug action": "drugactn",
+				"action": "action",
+				"relationship": "rshipdrug"
+			}
+		}
+	} 
+}
