@@ -74,14 +74,14 @@ class ParseData:
                         colname += f' {repeat_match[0].upper()}' # append repeat identifier to column name
                     
                     # No data overwriting in dictionary
-                    assert row_data.get(colname, None) is None, f'Data could be overwritten:\n {row_data}:\n {variable}'
+                    # assert row_data.get(colname, None) is not None, f'Data could be overwritten:\n {row_data}:\nvariable: {variable}\ncolumn name: {colname}'
                     
                     # -- Populate Dictionary --
                     if row_data.get(colname, None) is None: # variable has not already been populated
                         medrio_index = (medrio_index + 1)%len(medrio_order) # increment next expected variable
                         row_data[colname] = cell.value # set value data point
                     else: # data point already populated
-                        print('Warning: data could be overwritten ... ignored overwrite.')
+                        print(' -----    Warning: data could be overwritten ... ignored overwrite. ------ ')
                     
                     # -- MATCH FOUND --
                     break
@@ -211,9 +211,10 @@ class ParseData:
 
         for formtype, typemap in self.typemap.items():
             variable_headers_map = typemap.get("_variable_headers", None)
-            if variable_headers_map is None: # checks to see the _variable_headers subdocument is defined in the config file
+            variable_spread_map = typemap.get("_spread_variable", None)
+            if variable_headers_map is None and variable_spread_map is None: # checks to see the _variable_headers subdocument is defined in the config file
                 continue
-
+            
             
             # These forms need to have their data re-arrranged
             data_old = self.data.get(formtype, None);
@@ -225,6 +226,8 @@ class ParseData:
             data_new = dict()
             for data in data_old:
                 id = '' # empty
+
+                # cycle through all identifying headers in input file
                 for subid in identifying_headers:
                     id += data.get(subid, '') # concat to create id
                 
@@ -235,25 +238,43 @@ class ParseData:
                     data_new[id].update(data)
                 
                 # cycle through all header rearrangements specified in config file
-                for location_name, location_map in variable_headers_map.items(): #
-                    cell_contents_name = location_map.get('content', '') # the name of the data point to include as the cell contents
-                    header = location_map.get("header", None)
+                if variable_headers_map is not None:
+                    # Handle the compression of headers
+                    row_id = 0
+                    for location_name, location_map in variable_headers_map.items(): #
+                        row_id += 1
+                        cell_contents_name = location_map.get('content', '') # the name of the data point to include as the cell contents
+                        header = location_map.get("header_exact", None)
+                        header_ref_string= location_map.get("header_ref", None)
+                        header_ref = data.get(header_ref_string, None)
+                        cell_header = data.get(location_name, None)
 
-                    if header is None: # header is equal to the value of a cell
-                        header = data.get(location_name, None)
-                    
-                    if header is None: # header cannot be determined
-                        continue
-                    
-                    print(location_name)
-                    print(data)
-                    print(data_new[id])
-                    if data_new[id].get(location_name, None) is not None:
-                        del data_new[id][location_name] # delete the existing header
-                    if data_new[id].get(cell_contents_name, None) is not None:
-                        del data_new[id][cell_contents_name] # delete the contents of the new header
-                    data_new[id][header] = f'{data.get(cell_contents_name, "")}' # populate cell contents
+                        if header is not None and header_ref is not None: # header_exact & header_ref is defined
+                            header += f" [{header_ref}]"
+                        elif header_ref is not None: # header_exact is not defined
+                            header = header_ref
+                        elif header is None: # header is equal to the value of a cell
+                            header = cell_header
+            
+                            # Check if header remains none
+                            if header is None: # header cannot be determined
+                                print("Warning: Header is not defined in config.")
+                                continue
+                        
+                        # print(location_name)
+                        # print(data)
+                        # print(data_new[id])
+                        if data_new[id].get(location_name, None) is not None:
+                            del data_new[id][location_name] # delete the existing header
+                        if data_new[id].get(cell_contents_name, None) is not None:
+                            del data_new[id][cell_contents_name] # delete the contents of the new header
+                        data_new[id][header] = f'{data.get(cell_contents_name, "")}' # populate cell contents
 
+                '''if variable_spread_map is not None:
+                    # handle the spread of one variable amongst all related rows
+                    baseline = ''
+                    if data.'''
+                
             # Repopuate the global dictionary
             data_list = list()
             for id, data in data_new.items():
