@@ -162,7 +162,7 @@ class ParseData:
                 if repeat_regex is not None: # could be repeats
                     repeat_match = repeat_regex.match(variable) # check if the variable is a repeat variable
                 if repeat_match is not None: # this variable is a repeat
-                    curr_colname += f' {repeat_match[0].upper()}' # append repeat identifier to column name
+                    curr_colname += f' R{repeat_match[0].upper()}' # append repeat identifier to column name
                     revolutions = 0 # reset triplicate count
                     
                 #assert row_data.get(curr_colname, None) is None, f'Data could be overwritten:\n {row_data}:\n {variable}'
@@ -224,8 +224,10 @@ class ParseData:
             # print(data_old)
             
             data_new = dict()
+            inc = 0
             for data in data_old:
                 id = '' # empty
+                inc += 1
 
                 # cycle through all identifying headers in input file
                 for subid in identifying_headers:
@@ -243,11 +245,14 @@ class ParseData:
                     row_id = 0
                     for location_name, location_map in variable_headers_map.items(): #
                         row_id += 1
+                        inc += 1
                         cell_contents_name = location_map.get('content', '') # the name of the data point to include as the cell contents
                         header = location_map.get("header_exact", None)
                         header_ref_string= location_map.get("header_ref", None)
                         header_ref = data.get(header_ref_string, None)
                         cell_header = data.get(location_name, None)
+                        increment = location_map.get("_increment", False) # increment
+                        concat = location_map.get("_concatenate", None)
 
                         if header is not None and header_ref is not None: # header_exact & header_ref is defined
                             header += f" [{header_ref}]"
@@ -255,11 +260,18 @@ class ParseData:
                             header = header_ref
                         elif header is None: # header is equal to the value of a cell
                             header = cell_header
-            
-                            # Check if header remains none
-                            if header is None: # header cannot be determined
-                                print("Warning: Header is not defined in config.")
-                                continue
+
+                        # Check if header remains none
+                        if header is None: # header cannot be determined
+                            print("Warning: Header is not defined in config.")
+                            continue
+                        
+                        # Increment header -- specified in config file ("_increment")
+                        if increment:
+                            header += f' -{inc}'
+                        # Concatenate string to header -- specified in config file ("_concatenate")
+                        if concat is not None:
+                            header += f"{concat}"
                         
                         # print(location_name)
                         # print(data)
