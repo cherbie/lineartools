@@ -86,5 +86,5 @@ class FileWriter:
     Saves and actually writes the excel file to file and then closes the file properly.
     @Required
     '''
-    def close(self):
+    def save(self):
         return self.wb.save(self.filename)

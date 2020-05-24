@@ -9,13 +9,19 @@ class ParseData:
     @Param variables: list -- column headers of the input file
     @Param form_type_map: dict -- config file form-type mapping for variables to data point
     '''
-    def __init__(self, variables, form_type_map):
+    def __init__(self, variables, form_type_map, general_headers):
         if variables is None or form_type_map is None:
             raise Exception('ParseData constructor contains \'None\' paramaters')
         self.variables: list = variables # headers of the input file
         self.typemap: dict = form_type_map
-        self.constant_headers_map = {'Subject ID': 2, 'Form Name': 4, 'Group': 1, 'Visit': 3}
+        self.constant_headers_map = ParseData.setHeadersMap(general_headers)
         self.data = dict()
+    
+    def setHeadersMap(headers: list):
+        map = dict()
+        for itx, header in enumerate(headers):
+            map[header] = itx
+        return map
 
     '''
     Process row of data using config file specified mapping for forms that do not contain triplicate data points.
@@ -26,15 +32,22 @@ class ParseData:
 
     @Return - dict containing all collected data fields or None on error
     '''
-    def process_from_config(self, row, formtype: str, ignore_col_before: int, start_dict: dict = dict()):
-        
+    def process_from_config(self, row, formtype: str, ignore_col_before: int, start_dict: dict = dict(), err_logger = None):
         assert formtype is not None, 'Error: Formtype is None.' # need to specify the formtype (e.g ECG, Vital Signs etc)
         assert row is not None, 'Error: openpyxl row is None'
     
         # -- Get the mapping for formtype in the config file
         typemap = self.typemap.get(formtype, None)
         if typemap is None or typemap.get('_colregex', None) is None:
-            print(f"Error: typemap not identified {formtype}")
+            error = {
+                "type": "WARNING",
+                "message": f"Error: typemap not identified {formtype}",
+                "function": "ParseData.process_from_config"
+            }
+            if err_logger is not None:
+                err_logger.add({**start_dict, **error})
+            else:
+                print(f"Error: typemap not identified {formtype}")
             return None
         
         # -- Get the form variable order
@@ -98,8 +111,16 @@ class ParseData:
                         medrio_index = (medrio_index + 1)%len(medrio_order) # increment next expected variable
                         row_data[colname] = cell.value # set value data point
                     else: # data point already populated
-                        print(' -----    Warning: data could be overwritten ... ignored overwrite. ------ ')
-                        print(f'{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}')
+                        error = {
+                            "type": "ERROR",
+                            "message": f"Warning: data could be overwritten ... ignored overwrite.\n{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}",
+                            "function": "ParseData.process_from_config"
+                        }
+                        if err_logger is not None:
+                            err_logger.add({**start_dict, **error})
+                        else:
+                            print(' -----    Warning: data could be overwritten ... ignored overwrite. ------ ')
+                            print(f'{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}')
                     
                     # -- MATCH FOUND --
                     break
@@ -118,7 +139,7 @@ class ParseData:
 
     @Return - dict containing all collected data fields or None on error
     '''
-    def process_triplicate_from_config(self, row, formtype: str, ignore_col_before: int):
+    def process_triplicate_from_config(self, row, formtype: str, ignore_col_before: int, start_dict: dict = dict(), err_logger = None):
 
         assert formtype is not None, 'Error: Formtype is None.'
         assert row is not None, 'Error, Row paramater is None'
@@ -126,7 +147,15 @@ class ParseData:
         # -- Get the mapping for formtype in the config file
         typemap = self.typemap.get(formtype, None)
         if typemap is None or typemap.get('_colregex', None) is None:
-            print(f"Warning: Typemap not identified for {formtype}.\nCheck config file.")
+            error = {
+                "type": "WARNING",
+                "message": f"Warning: Typemap not identified for {formtype}.\nCheck config file.",
+                "function": "ParseData.process_triplicate_from_config"
+            }
+            if err_logger is not None:
+                err_logger.add({**start_dict, **error})
+            else:
+                print(f"Warning: Typemap not identified for {formtype}.\nCheck config file.")
             return None
         
         # -- Get the form variable order
@@ -157,7 +186,7 @@ class ParseData:
             medrio_order_regex[colname] = re.compile(regex_str, flags=re.I) # compile all medrio variable searchs (regular expressions)
 
         # -- PARSE DATA --
-        row_data = dict() # dictionary of data
+        row_data = start_dict # dictionary of data
         col = 0 # column index of xlsx cells
         medrio_index = 0 # keep track of form looking order
         revolutions = 0
@@ -206,8 +235,16 @@ class ParseData:
                         revolutions += 1 # increment triplicate count
                     row_data[curr_colname] = cell.value # set value data point
                 else: # data point already populated
-                    print('Warning: data could be overwritten ... overwrite ignored')
-                    print(f'{formtype}\n{row_data}\n{curr_colname}: {cell.value}')
+                    error = {
+                        "type": "ERROR",
+                        "message": f"WARNING: data could be overwritten ... ignored overwrite.\n{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}",
+                        "function": "ParseData.process_triplicate_from_config"
+                    }
+                    if err_logger is not None:
+                        err_logger.add({**start_dict, **error})
+                    else:
+                        print(' -----    Warning: data could be overwritten ... ignored overwrite. ------ ')
+                        print(f'{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}')
             
             # -- Search for next column incase variable was skipped
             elif re.search(searchstr[1], variable, flags=re.I) is not None: # mapped to variable (next expected form)
@@ -228,15 +265,23 @@ class ParseData:
                         revolutions += 1 # increment triplicate count
                     row_data[next_colname] = cell.value # set value data point
                 else: # data point already populated
-                    print('Warning: data could be overwritten ... overwrite ignored')
-                    print(f'{formtype}\n{row_data}\n{next_colname}: {cell.value}')
+                    error = {
+                        "type": "ERROR",
+                        "message": f"WARNING: data could be overwritten ... ignored overwrite.\n{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}",
+                        "function": "ParseData.process_triplicate_from_config"
+                    }
+                    if err_logger is not None:
+                        err_logger.add({**start_dict, **error})
+                    else:
+                        print(' -----    ERROR: data could be overwritten ... ignored overwrite. ------ ')
+                        print(f'{formtype}\n{row_data}\n{colname}: {cell.value}\n{variable}')
 
         return row_data
 
     '''
     Responsible for formating the data prior to printing to output
     '''
-    def format_data(self):
+    def format_data(self, err_logger = None):
         # -- Define generic headers
         identifying_headers = ['Subject ID', 'Form Name', 'Group', 'Visit']
 
@@ -297,8 +342,19 @@ class ParseData:
 
                         # -- Check if header remains none
                         if header is None: # header cannot be determined
-                            print("Warning: Header is not defined in config file (formatting).")
-                            continue # skip
+                            error = {
+                                "type": "WARNING",
+                                "message": "Warning: Header is not defined in config file (formatting).",
+                                "function": "ParseData.format_data"
+                            }
+                            if err_logger is not None:
+                                err_logger.add({**data, **error})
+                            else:
+                                print("Warning: Header is not defined in config file (formatting).")
+                            
+                            # Skip
+                            continue
+                            
                         
                         # -- Increment header --> specified in config file ("_increment")
                         if increment:
