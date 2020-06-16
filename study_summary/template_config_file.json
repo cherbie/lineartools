@@ -4,7 +4,6 @@
 	"map": {
 		"Orthostatic Vital": {
 			"_formregex": "Orthostatic",
-			"_medrio_order": ["date", "supinetime", "supinesys", "supinedias", "supineheart", "supinerr", "supinetemp", "review", "rp", "standingtime", "standingsys", "standingdias", "standingheart", "standingreview"],
 			"_colregex": {
 				"date": "dat",
 				"supinetime": "SuMeTim",
@@ -25,7 +24,6 @@
 		},
 		"Brief Physical": {
 			"_formregex": "Brief (Physical)?",
-			"_medrio_order": ["date", "time", "body", "other", "result", "description"],
 			"_colregex": {
 				"date": "dat",
 				"time": "tim",
@@ -50,7 +48,6 @@
 		},
 		"ECG": {
 			"_formregex": "ecg",
-			"_medrio_order": ["date", "time", "heart", "qrsd", "qtcf", "assessment", "qt", "rr", "pr"],
 			"_colregex": {
 				"date": "dat",
 				"time": "tim",
@@ -68,7 +65,6 @@
 		},
 		"Vital Signs": {
 			"_formregex": "vital",
-			"_medrio_order": ["date", "time", "systolic", "diastolic", "heart", "resp", "temp", "assessment", "review"],
 			"_colregex": {
 				"date": "dat",
 				"time": "meas",
@@ -84,7 +80,6 @@
 		},
 		"DSST": {
 			"_formregex": "dsst",
-			"_medrio_order": ["baseline", "date", "visit", "timepoint", "starttime", "endtime", "comparison"],
 			"_colregex": {
 				"baseline": "baseline",
 				"date": "dat",
@@ -97,7 +92,6 @@
 		},
 		"Neurological": {
 			"_formregex": "neurological",
-			"_medrio_order": ["date", "time", "assessment", "other", "significance", "find"],
 			"_colregex": {
 				"assessment": "asses",
 				"other": "other",
@@ -122,7 +116,6 @@
 		},
 		"Physical Exam": {
 			"_formregex": "physical",
-			"_medrio_order": ["date", "time", "system", "other", "result", "description"],
 			"_colregex": {
 				"date": "dat",
 				"time": "tim",
@@ -147,7 +140,6 @@
 		},
 		"Dose Adminstration": {
 			"_formregex": "doser 2",
-			"_medrio_order": ["cocacola", "batchnum", "datetime", "dosevolume", "watervolume", "totalvolume"],
 			"_colregex": {
 				"cocacola": "cocacola",
 				"batchnum": "batchnum",
@@ -159,7 +151,6 @@
 		},
 		"Adverse Events": {
 			"_formregex": "adverse",
-			"_medrio_order": ["id", "ongoing", "startdate", "starttime", "enddate", "endtime", "outcome", "severity", "frequency", "serious", "term", "drug action", "action", "relationship"],
 			"_colregex": {
 				"id": "aeid",
 				"ongoing": "ongoing",
