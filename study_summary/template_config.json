@@ -1,28 +1,70 @@
 {
-	"tabs": ["ECG", "Vital Signs", "DSST", "Neurological", "Physical Exam", "Dose Administration", "Adverse Events"],
+	"tabs": ["ECG", "Vital Signs", "Brief Physical", "DSST", "Neurological", "Physical Exam", "Dose Administration", "Adverse Events", "Orthostatic Vital"],
+	"general_headers": ["Medrio ID", "Group", "Subject ID", "Visit", "Form"],
 	"map": {
-		"ECG": {
-			"_formregex": "ecg",
-			"_col": ["date", "time", "heart", "rr", "pr", "qrsd", "qt", "qtcf", "asssessment"],
-			"_medrio_order": ["date", "time", "heart", "rr", "pr", "qrsd", "qt", "qtcf", "assessment"],
+		"Orthostatic Vital": {
+			"_formregex": "Orthostatic",
+			"_colregex": {
+				"date": "dat",
+				"supinetime": "SuMeTim",
+				"supinesys": "SuSys",
+				"supinedias": "SuDia",
+				"supineheart": "SuHr",
+				"supinerr": "SuRR",
+				"supinetemp": "SuTe",
+				"standingreview": "ReviewOrthoS",
+				"rp": "RPRev",
+				"review": "review",
+				"standingtime": "stmetim",
+				"standingsys": "stsys",
+				"standingdias": "stdia",
+				"standingheart": "sthr"
+			},
+			"_repregex": "_(R[0-9])"
+		},
+		"Brief Physical": {
+			"_formregex": "Brief (Physical)?",
 			"_colregex": {
 				"date": "dat",
 				"time": "tim",
-				"heart": "heart",
-				"rr": "rr",
-				"pr": "pr",
+				"body": "body",
+				"other": "oth",
+				"result": "res",
+				"description": "(abnorm)|(abcomm)" 
+			},
+			"_variable_headers": {
+				"other": {
+					"content": "result"
+				},
+				"body": {
+					"content": "result"
+				},
+				"description": {
+					"content": "description",
+					"header_ref": "body",
+					"_concatenate": " -- description"
+				}
+			}
+		},
+		"ECG": {
+			"_formregex": "ecg",
+			"_colregex": {
+				"date": "dat",
+				"time": "tim",
+				"heart": "hear",
+				"assessment": "rev",
 				"qrsd": "qrsd",
-				"qt": "qt",
 				"qtcf": "qtcf",
-				"assessment": "rev"
+				"qt": "qt",
+				"rr": "rr",
+				"pr": "pr"
 			},
 			"_triplicateregex": "triplicate",
-			"_repregex": "R[0-9]"
+			"_triplicate_id_regex": "([1-3])_",
+			"_repregex": "(_R[0-9])"
 		},
 		"Vital Signs": {
 			"_formregex": "vital",
-			"_col": ["date", "time", "systolic", "diastolic", "heart", "resp", "temp", "assessment"],
-			"_medrio_order": ["date", "time", "systolic", "diastolic", "heart", "resp", "temp", "assessment", "assessment"],
 			"_colregex": {
 				"date": "dat",
 				"time": "meas",
@@ -31,14 +73,13 @@
 				"heart": "heart",
 				"resp": "resp",
 				"temp": "temp",
+				"review": "RPRev",
 				"assessment": "rev"
 			},
-			"_repregex": "R[0-9]"
+			"_repregex": "(R[0-9])"
 		},
 		"DSST": {
 			"_formregex": "dsst",
-			"_col": ["date", "visit", "timepoint", "starttime", "endtime", "comparison", "baseline"],
-			"_medrio_order": ["baseline", "date", "visit", "timepoint", "starttime", "endtime", "comparison"],
 			"_colregex": {
 				"baseline": "baseline",
 				"date": "dat",
@@ -47,19 +88,10 @@
 				"starttime": "sttime",
 				"endtime": "edtime",
 				"comparison": "comp"
-			},
-			"_ignore": {
-				"baseline": {
-					"content": "baseline",
-					"header_exact": "baseline",
-					"match_other": ["visit"]
-				}
 			}
 		},
 		"Neurological": {
 			"_formregex": "neurological",
-			"_col": ["date", "time", "assessment", "other", "significance", "date", "find"],
-			"_medrio_order": ["date", "time", "assessment", "other", "significance", "find"],
 			"_colregex": {
 				"assessment": "asses",
 				"other": "other",
@@ -78,21 +110,19 @@
 				"find": {
 					"header_exact": "Finding",
 					"header_ref": "assessment",
-					"_increment": true,
 					"content": "find"
 				}
 			}
 		},
 		"Physical Exam": {
 			"_formregex": "physical",
-			"_col": ["date", "time", "system", "other", "result"],
-			"_medrio_order": ["date", "time", "system", "other", "result"],
 			"_colregex": {
 				"date": "dat",
 				"time": "tim",
 				"system": "system",
 				"other": "oth",
-				"result": "result"
+				"result": "res",
+				"description": "(abnorm)|(abcomm)" 
 			},
 			"_variable_headers": {
 				"system": {
@@ -100,13 +130,16 @@
 				},
 				"other": {
 					"content": "result"
+				},
+				"description": {
+					"content": "description",
+					"header_ref": "system",
+					"_concatenate": " -- description"
 				}
 			}
 		},
 		"Dose Adminstration": {
 			"_formregex": "doser 2",
-			"_col": ["cocacola", "batchnum", "datetime", "dosevolume", "watervolume", "totalvolume"],
-			"_medrio_order": ["cocacola", "batchnum", "datetime", "dosevolume", "watervolume", "totalvolume"],
 			"_colregex": {
 				"cocacola": "cocacola",
 				"batchnum": "batchnum",
@@ -118,8 +151,6 @@
 		},
 		"Adverse Events": {
 			"_formregex": "adverse",
-			"_col": ["id", "ongoing", "startdate", "starttime", "enddate", "endtime", "outcome", "severity", "frequency", "serious", "term", "drug action", "action", "relationship"],
-			"_medrio_order": ["id", "ongoing", "startdate", "starttime", "enddate", "endtime", "outcome", "severity", "frequency", "serious", "term", "drug action", "action", "relationship"],
 			"_colregex": {
 				"id": "aeid",
 				"ongoing": "ongoing",
