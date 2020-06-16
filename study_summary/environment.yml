@@ -1,0 +1,10 @@
+name: nox
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - openpyxl
+  - jupyterlab
+  - python=3.8
+  - matplotlib
+prefix: /usr/local/Caskroom/miniconda/base/envs/nox

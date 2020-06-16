@@ -12,7 +12,7 @@ class FileWriter:
     @param tabs - list of tabs to be included in output xlsx file
     @param dictionary_data - formatted data to be used to write to file
     '''
-    def __init__(self, dirname: str, name: str, tabs: list, dictionary_data: dict):
+    def __init__(self, dirname: str, name: str, tabs: list, base_headers: dict, dictionary_data: dict):
         if not os.path.exists(dirname):
             print(f'Creating Directory: {dirname}')
             os.mkdir(dirname)
@@ -20,7 +20,7 @@ class FileWriter:
         self.tabs = tabs
         self.wb = Workbook(write_only=True) # optimised for large file writing
         self.data = dictionary_data # all parsed data
-        self.baseheaders = ['Subject ID', 'Form Name', 'Group', 'Visit']
+        self.baseheaders = base_headers
         
     '''
     Find all column headers for a particular output .xlsx file tab.

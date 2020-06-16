@@ -15,8 +15,9 @@ class ErrorLogger:
 		self.errors = list() # all parsed data
 		
 		# -- Add to headers --
-		headers.extend(error_fieldnames)
-		self.headers = ErrorLogger.setHeaders(headers)
+		error_headers = headers.copy()
+		error_headers.extend(error_fieldnames)
+		self.headers = ErrorLogger.setHeaders(error_headers)
 		self.empty_error = dict.fromkeys(self.headers)
 		self.setWorksheet()
 
