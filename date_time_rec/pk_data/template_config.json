@@ -1,0 +1,24 @@
+{
+  "source": { "file": "./INPUT.csv" },
+  "comparison": { "file": "./COMPARISON.csv" },
+  "output": { "directory": "./output" },
+  "match": {
+    "0": { "date": "PKPDDat_C", "time": "PKPDTim_C" },
+    "0.25": { "date": "PK15Dat_C", "time": "PK15Tim_C" },
+    "0.5": { "date": "PK30Dat_C", "time": "PK30Tim_C" },
+    "1": { "date": "PK1Dat_C", "time": "PK1Tim_C" },
+    "1.5": { "date": "PK90Dat_C", "time": "PK90Tim_C" },
+    "2": { "date": "PK2Dat_C", "time": "PK2Tim_C" },
+    "3": { "date": "PKPM0Dat_C", "time": "PKPMTim_C" },
+    "4": { "date": "PK4Dat_C", "time": "PK4Tim_C" },
+    "5": { "date": "PK5Dat_C", "time": "PK5Tim_C" },
+    "6": { "date": "PK6Dat_C", "time": "PK6Tim_C" },
+    "8": { "date": "PKPM8Dat_C", "time": "PKPM8Tim_C" },
+    "12": { "date": "PK12Dat_C", "time": "PK12Tim_C" },
+    "16": { "date": "PK16Dat_C", "time": "PK16Tim_C" },
+    "24": { "date": "LB24Dat_C", "time": "LB24Tim_C" },
+    "48": { "date": "PK48Dat_C", "time": "PK48Tim_C" },
+    "72": { "date": "PK72Dat_C", "time": "PK72Tim_C" },
+    "144": { "date": "LBEOSDatTScng_C", "time": "LBEOSTim_C" }
+  }
+}
